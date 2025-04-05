@@ -8,16 +8,16 @@ namespace Game.Gameplay.Events
     {
         [SerializeField] private bool _clockwise;
         
-        public override bool ValidateForTile(IEventsProcessor eventsProcessor, Vector2Int tile)
+        public override bool ValidateForTile(IGameController gameController, Vector2Int tile)
         {
-            return tile.x > 0 && tile.y > 0 && tile.x < eventsProcessor.FieldSize.x - 1 && tile.y < eventsProcessor.FieldSize.y - 1;
+            return tile.x > 0 && tile.y > 0 && tile.x < gameController.FieldSize.x - 1 && tile.y < gameController.FieldSize.y - 1;
         }
         
-        public override async UniTask HandleEvent(IEventsProcessor eventsProcessor)
+        public override async UniTask HandleEvent(IGameController gameController)
         {
-            await base.HandleEvent(eventsProcessor);
+            await base.HandleEvent(gameController);
             
-            await eventsProcessor.RotateTiles(eventsProcessor.CharacterPosition, _clockwise);
+            await gameController.RotateTiles(gameController.CharacterPosition, _clockwise);
         }
     }
 }

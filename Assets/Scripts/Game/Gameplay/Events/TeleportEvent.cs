@@ -6,9 +6,9 @@ namespace Game.Gameplay.Events
     [CreateAssetMenu(menuName = "TileEvents/TeleportEvent")]
     public class TeleportEvent : TileEvent
     {
-        public override async UniTask HandleEvent(IEventsProcessor eventsProcessor)
+        public override async UniTask HandleEvent(IGameController gameController)
         {
-            await base.HandleEvent(eventsProcessor);
+            await base.HandleEvent(gameController);
             
             Debug.Log("TeleportEvent is not implemented.");
         }

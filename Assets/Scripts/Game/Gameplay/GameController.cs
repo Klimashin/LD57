@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Game.Data;
 using Game.Gameplay.Events;
 using Game.UI;
 using JetBrains.Annotations;
@@ -13,20 +14,23 @@ using Random = UnityEngine.Random;
 
 namespace Game.Gameplay
 {
-    public class GameController : MonoBehaviour, IEventsProcessor
+    public class GameController : MonoBehaviour, IGameController
     {
         [SerializeField] private Transform _tilesTransform;
         [SerializeField] private FieldConfig _config;
         [SerializeField] private GameObject _characterMarkerPrefab;
+        [SerializeField] private BattleUnit _characterBattlePrefab;
         [SerializeField] private float _characterMoveDuration = 0.5f;
         [SerializeField] private GameObject _questMarkerPrefab;
         
         public int Energy { get; private set; }
         public int Hp { get; private set; }
+        public int Attack { get; private set; }
         public UnityEvent OnWin { get; private set; } = new();
         public UnityEvent OnLose { get; private set; } = new();
         public Vector2Int CharacterPosition { get; private set; }
         public Vector2Int FieldSize => _config.Size;
+        public BattleUnit CharacterBattlePrefab => _characterBattlePrefab;
 
         private GameState State { get; set; } = GameState.AwaitingInput;
         private readonly Dictionary<Vector2Int, FieldTileController> _tiles = new ();
@@ -45,7 +49,7 @@ namespace Game.Gameplay
         private void Start()
         {
             GenerateTiles();
-            SetupQuests();
+            SetupGoals();
             GenerateEvents();
             InitializeCharacter();
         }
@@ -111,6 +115,13 @@ namespace Game.Gameplay
             Energy -= _tiles[CharacterPosition].Config.Cost;
             Debug.Log($"NEW ENERGY LEVEL: {Energy.ToString()}");
 
+            if (Energy < 0)
+            {
+                var damage = -Energy;
+                Energy = 0;
+                Hp -= damage;
+            }
+
             if (CheckLoseCondition())
             {
                 await OnGameLost();
@@ -127,7 +138,7 @@ namespace Game.Gameplay
 
         private bool CheckLoseCondition()
         {
-            return Energy <= 0;
+            return Hp <= 0;
         }
         
         private bool CheckWinCondition()
@@ -173,8 +184,9 @@ namespace Game.Gameplay
             _characterMarker = Instantiate(_characterMarkerPrefab);
             CharacterPosition = _config.CharacterInitialTile;
             _characterMarker.transform.position = CoordsIntoCharacterPosition(CharacterPosition);
-            Energy = _config.InitialEnergy;
-            Hp = _config.InitialHp;
+            Energy = _config.CharacterBaseParams.Energy;
+            Hp = _config.CharacterBaseParams.Hp;
+            Attack = _config.CharacterBaseParams.Attack;
         }
 
         private Vector3 CoordsIntoCharacterPosition(Vector2Int coords)
@@ -252,7 +264,7 @@ namespace Game.Gameplay
             tile.Setup(tileCoords, tileConfig);
         }
 
-        private void SetupQuests()
+        private void SetupGoals()
         {
             var questTile = _config.WinTile;
             _questMarker = Instantiate(_questMarkerPrefab, _tilesTransform);
@@ -275,9 +287,38 @@ namespace Game.Gameplay
             throw new Exception("Failed to select tile based on roll");
         }
 
-        public void AddEnergy(int energy)
+        public void AddResource(PlayerResources resType, int resCount)
         {
-            Energy += energy;
+            switch (resType)
+            {
+                case PlayerResources.Energy:
+                    Energy += resCount;
+                    return;
+                    
+                case PlayerResources.Health:
+                    Hp += resCount;
+                    return;
+                
+                default:
+                    throw new Exception("Unknown res type added");
+            }
+        }
+        
+        public void SetResource(PlayerResources resType, int resCount)
+        {
+            switch (resType)
+            {
+                case PlayerResources.Energy:
+                    Energy = resCount;
+                    return;
+                    
+                case PlayerResources.Health:
+                    Hp = resCount;
+                    return;
+                
+                default:
+                    throw new Exception("Unknown res type set");
+            }
         }
 
         public async UniTask ShuffleTiles()
@@ -349,14 +390,27 @@ namespace Game.Gameplay
 
             await UniTask.WhenAll(moveTasks);
         }
+
+        public async UniTask Battle(MonsterData monster)
+        {
+            await _battlePanel.RunBattle(monster, this);
+        }
+
+        public async UniTask Quest(Quest quest)
+        {
+            var resultChoice = await _questPanel.RunQuest(quest, this);
+            if (resultChoice.ChoiceEvent != null)
+            {
+                await resultChoice.ChoiceEvent.HandleEvent(this);
+            }
+        }
     }
 
     [Serializable]
     public class FieldConfig
     {
         public Vector2Int Size = new (5, 5);
-        public int InitialEnergy = 20;
-        public int InitialHp = 20;
+        public CharacterBaseParams CharacterBaseParams = new ();
         public Vector2Int CharacterInitialTile = new(0, 0);
         public List<TileConfig> Tiles;
         public Vector2Int WinTile = new(0, 0);
@@ -370,6 +424,13 @@ namespace Game.Gameplay
         public FieldTileController TilePrefab;
         public int SpawnRate = 1;
         public int Cost = 1;
+    }
+
+    public class CharacterBaseParams
+    {
+        public int Energy = 20;
+        public int Hp = 20;
+        public int Attack = 2;
     }
 
     [Serializable]
@@ -387,12 +448,26 @@ namespace Game.Gameplay
         Lost = 3
     }
 
-    public interface IEventsProcessor
+    public enum PlayerResources
     {
+        Energy,
+        Health
+    }
+
+    public interface IGameController
+    {
+        public int Energy { get; }
+        public int Hp { get; }
+        public int Attack { get; }
+
         public Vector2Int FieldSize { get; }
         public Vector2Int CharacterPosition { get; }
-        public void AddEnergy(int energy);
+        public void AddResource(PlayerResources resType, int resCount);
+        public void SetResource(PlayerResources resType, int resCount);
         public UniTask ShuffleTiles();
         public UniTask RotateTiles(Vector2Int center, bool clockwise);
+        public BattleUnit CharacterBattlePrefab { get; }
+        public UniTask Battle(MonsterData monster);
+        public UniTask Quest(Quest quest);
     }
 }

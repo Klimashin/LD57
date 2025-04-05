@@ -8,45 +8,43 @@ using Random = UnityEngine.Random;
 
 namespace Game.Gameplay.Events
 {
-    [CreateAssetMenu(menuName = "TileEvents/BattleEvent")]
-    public class BattleEvent : TileEvent
+    [CreateAssetMenu(menuName = "TileEvents/QuestEvent")]
+    public class QuestEvent : TileEvent
     {
-        [SerializeField] private List<MonsterConfig> _config;
+        [SerializeField] private List<Config> _quests;
         
         public override async UniTask HandleEvent(IGameController gameController)
         {
             await base.HandleEvent(gameController);
 
-            var monster = SelectMonster();
-            
-            Debug.Log($"Selected monster: {monster.name}");
-            
-            await gameController.Battle(SelectMonster());
-        }
+            var quest = SelectQuest();
 
-        private MonsterData SelectMonster()
+            await gameController.Quest(quest);
+        }
+        
+        private Quest SelectQuest()
         {
-            int totalChance = _config.Select(monsterConfig => monsterConfig.Chance).Sum();
+            int totalChance = _quests.Select(config => config.Chance).Sum();
             int cumulativeChance = 0;
             int roll = Random.Range(0, totalChance);
 
-            for (int i = 0; i < _config.Count; i++)
+            for (int i = 0; i < _quests.Count; i++)
             {
-                cumulativeChance += _config[i].Chance;
+                cumulativeChance += _quests[i].Chance;
                 if (roll < cumulativeChance)
                 {
-                    return _config[i].MonsterData;
+                    return _quests[i].Quest;
                 }
             }
 
             throw new Exception("Failed to select monster data based on roll");
         }
-
+        
         [Serializable]
-        public class MonsterConfig
+        public class Config
         {
             public int Chance = 1;
-            public MonsterData MonsterData;
+            public Quest Quest;
         }
     }
 }

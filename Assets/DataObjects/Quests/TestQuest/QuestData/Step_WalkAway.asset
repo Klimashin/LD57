@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f84a4b085f648949ba86cd0bc789920, type: 3}
-  m_Name: EnergyEvent1_3
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: Step_WalkAway
   m_EditorClassIdentifier: 
-  _eventMarkerPrefab: {fileID: 4996383885512054531, guid: 0fa13a882d972b945bf383f4b43f7cd7, type: 3}
-  _energyRangeToAdd: {x: 1, y: 2}
+  StepDescription: You walked away.
+  Choices:
+  - ChoiceText: ...
+    NextSteps: []
+    ChoiceEvent: {fileID: 0}

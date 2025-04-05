@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f84a4b085f648949ba86cd0bc789920, type: 3}
+  m_Name: EnergyEvent1_2
+  m_EditorClassIdentifier: 
+  _eventMarkerPrefab: {fileID: 4996383885512054531, guid: 0fa13a882d972b945bf383f4b43f7cd7, type: 3}
+  _config:
+  - Type: 0
+    Amount: {x: 1, y: 2}

@@ -9,11 +9,11 @@ namespace Game.Gameplay.Events
 
         public GameObject MarkerPrefab => _eventMarkerPrefab;
 
-        public virtual bool ValidateForTile(IEventsProcessor eventsProcessor, Vector2Int tile)
+        public virtual bool ValidateForTile(IGameController gameController, Vector2Int tile)
         {
             return true;
         }
         
-        public async virtual UniTask HandleEvent(IEventsProcessor eventsProcessor) {}
+        public async virtual UniTask HandleEvent(IGameController gameController) {}
     }
 }

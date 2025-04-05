@@ -6,11 +6,11 @@ namespace Game.Gameplay.Events
     [CreateAssetMenu(menuName = "TileEvents/ShuffleEvent")]
     public class ShuffleEvent : TileEvent
     {
-        public override async UniTask HandleEvent(IEventsProcessor eventsProcessor)
+        public override async UniTask HandleEvent(IGameController gameController)
         {
-            await base.HandleEvent(eventsProcessor);
+            await base.HandleEvent(gameController);
 
-            await eventsProcessor.ShuffleTiles();
+            await gameController.ShuffleTiles();
         }
     }
 }
