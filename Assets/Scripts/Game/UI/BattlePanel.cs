@@ -89,7 +89,7 @@ namespace Game.UI
             var characterUnit = Instantiate(_gameController.CharacterBattlePrefab, _characterTransform);
             var monsterUnit = Instantiate(_monsterData.Prefab, _monsterTransform);
             
-            characterUnit.Initialize(_gameController.Hp, _gameController.Attack, false);
+            characterUnit.Initialize(_gameController.GetResource(PlayerResources.Health), _gameController.GetResource(PlayerResources.Attack), false);
             monsterUnit.Initialize(_monsterData.Hp, _monsterData.Attack, true);
             
             _characterModel = characterUnit;

@@ -35,7 +35,7 @@ namespace Game.UI
             var animationSeq = DOTween.Sequence().SetAutoKill(true);
 
             animationSeq
-                .Append(_image.rectTransform.DOMoveX(transform.position.x + (IsEnemy ? -2f : 2f), _attackAnimationDuration / 2f))
+                .Append(_image.rectTransform.DOMoveX(transform.position.x + (IsEnemy ? -200f : 200f), _attackAnimationDuration / 2f))
                 .Join(_image.rectTransform.DORotate(IsEnemy ? new Vector3(0f, 0f, 20f) : new Vector3(0f, 0f, -20f), _attackAnimationDuration / 2f))
                 .AppendCallback(() => damageCallback.Invoke(Attack))
                 .SetLoops(2, LoopType.Yoyo);

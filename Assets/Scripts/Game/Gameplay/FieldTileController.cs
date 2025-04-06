@@ -1,3 +1,4 @@
+using Game.Data;
 using Game.Gameplay.Events;
 using JetBrains.Annotations;
 using TMPro;

@@ -3,7 +3,6 @@
     "com.brunomikoski.animationsequencer": "https://github.com/brunomikoski/Animation-Sequencer.git",
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10",
     "com.gustavopsantos.reflex": "https://github.com/gustavopsantos/reflex.git?path=/Assets/Reflex/#9.2.1",
-    "com.unity.addressables": "1.21.21",
     "com.unity.collab-proxy": "2.7.1",
     "com.unity.feature.2d": "2.0.0",
     "com.unity.ide.rider": "3.0.24",

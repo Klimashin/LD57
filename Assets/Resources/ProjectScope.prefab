@@ -68,6 +68,6 @@ MonoBehaviour:
   _audioMixer: {fileID: 24100000, guid: d42710be7bce64543aa093828e8bee5d, type: 2}
   _audioClips:
     _keyData:
-    - test
+    - gameplay
     _valueData:
-    - {fileID: 8300000, guid: 81bc5862b7f247f4dad6498c0f4b7349, type: 3}
+    - {fileID: 8300000, guid: 2873458472377524fa43dbb2dde16bfe, type: 3}

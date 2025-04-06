@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1215900952200734026, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7ff419babb7ecc54e96b2fba7bd3f0ee, type: 3}
+      objectReference: {fileID: 21300000, guid: 337f8125f0f7c904791972db79522570, type: 3}
     - target: {fileID: 3443863369710649814, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
       propertyPath: m_Name
       value: MountainsTile

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac5291513c70d3540b04b28f6591d20a, type: 3}
+  m_Name: Stage2
+  m_EditorClassIdentifier: 
+  Size: {x: 3, y: 3}
+  CharacterInitialTile: {x: 0, y: 0}
+  Tiles:
+  - TilePrefab: {fileID: 8025512771596005011, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
+    SpawnRate: 1
+    Cost: 2
+  - TilePrefab: {fileID: 4603727243499186276, guid: f4bbb71fd5c90be4e80e777912c66512, type: 3}
+    SpawnRate: 1
+    Cost: 1
+  - TilePrefab: {fileID: 4603727243499186276, guid: 2360c32be5dd3c34995318b5458ea966, type: 3}
+    SpawnRate: 1
+    Cost: 4
+  - TilePrefab: {fileID: 4603727243499186276, guid: a474e989258e3a34fb8d4e18379e5e80, type: 3}
+    SpawnRate: 1
+    Cost: 3
+  WinTile: {x: 2, y: 2}
+  TileWithoutEventSpawnRate: 0
+  Events:
+  - Event: {fileID: 11400000, guid: 831fc923b1a7d5e4d827ea7b1e2132c3, type: 2}
+    SpawnRate: 1
+  - Event: {fileID: 11400000, guid: e47eba1227526bc47acca05b45981fb3, type: 2}
+    SpawnRate: 1
+  - Event: {fileID: 11400000, guid: 8591546a70c90114b8841efe44202159, type: 2}
+    SpawnRate: 1
+  CameraConfig:
+    Position: {x: 1, y: 1.5}
+    Size: 2

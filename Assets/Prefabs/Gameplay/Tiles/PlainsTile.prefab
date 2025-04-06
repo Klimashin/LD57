@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1215900952200734026, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 67c518034ab8b8748a055bf53ba64f89, type: 3}
+      objectReference: {fileID: 21300000, guid: dc3895ef7af25f744bd8a80466249d87, type: 3}
     - target: {fileID: 3443863369710649814, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
       propertyPath: m_Name
       value: PlainsTile

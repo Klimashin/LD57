@@ -4,7 +4,6 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Game.Data;
-using Game.Gameplay.Events;
 using Game.UI;
 using JetBrains.Annotations;
 using Reflex.Attributes;
@@ -17,20 +16,22 @@ namespace Game.Gameplay
     public class GameController : MonoBehaviour, IGameController
     {
         [SerializeField] private Transform _tilesTransform;
-        [SerializeField] private FieldConfig _config;
+        [SerializeField] private GameObject _menuPanel;
+        [SerializeField] private List<GameStage> _stages;
         [SerializeField] private GameObject _characterMarkerPrefab;
         [SerializeField] private BattleUnit _characterBattlePrefab;
         [SerializeField] private float _characterMoveDuration = 0.5f;
         [SerializeField] private GameObject _questMarkerPrefab;
         [SerializeField] private GameObject _moveMarkerPrefab;
+        [SerializeField] private CharacterBaseParams _characterBaseParams = new ();
         
         public int Energy { get; private set; }
         public int Hp { get; private set; }
         public int Attack { get; private set; }
-        public UnityEvent OnWin { get; private set; } = new();
-        public UnityEvent OnLose { get; private set; } = new();
+        public UnityEvent OnWin { get; } = new();
+        public UnityEvent OnLose { get; } = new();
         public Vector2Int CharacterPosition { get; private set; }
-        public Vector2Int FieldSize => _config.Size;
+        public Vector2Int FieldSize => _currentStage.Size;
         public BattleUnit CharacterBattlePrefab => _characterBattlePrefab;
         public GameState State { get; private set; } = GameState.AwaitingInput;
         public FieldTileController CurrentHoveredTile { get; private set; }
@@ -41,25 +42,83 @@ namespace Game.Gameplay
         private BattlePanel _battlePanel;
         private QuestPanel _questPanel;
         private GameObject _moveMarker;
+        private LoadingOverlay _loadingOverlay;
+        private int _currentStageIndex = -1;
+        private GameStage _currentStage;
+        private Camera _camera;
 
         [Inject]
-        private void Inject(BattlePanel battlePanel, QuestPanel questPanel)
+        private void Inject(BattlePanel battlePanel, QuestPanel questPanel, LoadingOverlay loadingOverlay, Camera camera)
         {
             _battlePanel = battlePanel;
             _questPanel = questPanel;
+            _loadingOverlay = loadingOverlay;
+            _camera = camera;
         }
         
         private void Start()
         {
+            ProgressToNextStage().Forget();
+        }
+
+        private async UniTask ProgressToNextStage()
+        {
+            State = GameState.Loading;
+            
+            bool isFirstStage = _currentStageIndex == -1;
+            if (!isFirstStage)
+            {
+                await _loadingOverlay.ShowOverlay();
+                CleanupField();
+            }
+
+            _currentStageIndex++;
+            _currentStage = _stages[_currentStageIndex];
+
+            CameraSetup();
             GenerateTiles();
             SetupGoals();
             GenerateEvents();
             InitializeCharacter();
+
+            await _loadingOverlay.HideOverlay();
+            
+            State = GameState.AwaitingInput;
+        }
+
+        private void CameraSetup()
+        {
+            var camTransform = _camera.transform;
+            camTransform.position = new Vector3(_currentStage.CameraConfig.Position.x,
+                _currentStage.CameraConfig.Position.y, camTransform.position.z);
+            _camera.orthographicSize = _currentStage.CameraConfig.Size;
+        }
+
+        private void CleanupField()
+        {
+            _tiles.Clear();
+            int fieldChildCount = _tilesTransform.childCount;
+            for (int i = fieldChildCount - 1; i >= 0; i--)
+            {
+                Destroy(_tilesTransform.GetChild(i).gameObject);
+            }
         }
 
         private void Update()
         {
             HandleHover();
+            
+            switch (State)
+            {
+                case GameState.Menu when Input.GetKeyDown(KeyCode.Escape):
+                    State = GameState.AwaitingInput;
+                    _menuPanel.gameObject.SetActive(false);
+                    return;
+                case GameState.AwaitingInput when Input.GetKeyDown(KeyCode.Escape):
+                    State = GameState.Menu;
+                    _menuPanel.gameObject.SetActive(true);
+                    return;
+            }
             
             if (State == GameState.AwaitingInput)
             {
@@ -69,12 +128,12 @@ namespace Game.Gameplay
 
         private void HandleHover()
         {
-            if (Camera.main == null)
+            if (State == GameState.Loading)
             {
                 return;
             }
 
-            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mouseWorldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
             Collider2D hit = Physics2D.OverlapPoint(mouseWorldPos);
 
             if (State == GameState.AwaitingInput && hit != null && hit.TryGetComponent<FieldTileController>(out var hitTile))
@@ -187,7 +246,7 @@ namespace Game.Gameplay
         
         private bool CheckWinCondition()
         {
-            return CharacterPosition == _config.WinTile;
+            return CharacterPosition == _currentStage.WinTile;
         }
 
         private async UniTask OnGameLost()
@@ -199,10 +258,18 @@ namespace Game.Gameplay
         
         private async UniTask OnGameWon()
         {
-            State = GameState.Win;
             _questMarker.SetActive(false);
-            Debug.Log("GAME WON");
-            OnWin.Invoke();
+            
+            if (_currentStageIndex >= _stages.Count - 1)
+            {
+                State = GameState.Win;
+                OnWin.Invoke();
+                Debug.Log("GAME WON");
+            }
+            else
+            {
+                await ProgressToNextStage();
+            }
         }
 
         private async UniTask HandleTileEntrance(FieldTileController tile)
@@ -219,16 +286,16 @@ namespace Game.Gameplay
 
         private bool ValidateCharacterCoords(Vector2Int characterCoords)
         {
-            return characterCoords.x >= 0 && characterCoords.x < _config.Size.x 
-                    && characterCoords.y >= 0 && characterCoords.y < _config.Size.y;
+            return characterCoords.x >= 0 && characterCoords.x < _currentStage.Size.x 
+                    && characterCoords.y >= 0 && characterCoords.y < _currentStage.Size.y;
         }
         
         private bool ValidateMoveCoords(Vector2Int moveCoords)
         {
             bool insideMap = moveCoords.x >= 0
-                   && moveCoords.x < _config.Size.x
+                   && moveCoords.x < _currentStage.Size.x
                    && moveCoords.y >= 0
-                   && moveCoords.y < _config.Size.y;
+                   && moveCoords.y < _currentStage.Size.y;
 
             bool validMove = (Mathf.Abs(moveCoords.x - CharacterPosition.x) == 1 && moveCoords.y == CharacterPosition.y)
                              || (Mathf.Abs(moveCoords.y - CharacterPosition.y) == 1 &&
@@ -239,14 +306,19 @@ namespace Game.Gameplay
 
         private void InitializeCharacter()
         {
-            _characterMarker = Instantiate(_characterMarkerPrefab);
-            CharacterPosition = _config.CharacterInitialTile;
+            CharacterPosition = _currentStage.CharacterInitialTile;
+            
+            _characterMarker = Instantiate(_characterMarkerPrefab, _tilesTransform);
             _characterMarker.transform.position = CoordsIntoCharacterPosition(CharacterPosition);
-            Energy = _config.CharacterBaseParams.Energy;
-            Hp = _config.CharacterBaseParams.Hp;
-            Attack = _config.CharacterBaseParams.Attack;
-            _moveMarker = Instantiate(_moveMarkerPrefab);
+            _moveMarker = Instantiate(_moveMarkerPrefab, _tilesTransform);
             _moveMarker.gameObject.SetActive(false);
+
+            if (_currentStageIndex == 0)
+            {
+                Energy = _characterBaseParams.Energy;
+                Hp = _characterBaseParams.Hp;
+                Attack = _characterBaseParams.Attack;
+            }
         }
 
         private Vector3 CoordsIntoCharacterPosition(Vector2Int coords)
@@ -289,12 +361,12 @@ namespace Game.Gameplay
         private void GenerateEvents()
         {
             IEnumerable<Vector2Int> filteredTiles =
-                _tiles.Keys.Where(tileCoord => tileCoord != _config.CharacterInitialTile && tileCoord != _config.WinTile);
+                _tiles.Keys.Where(tileCoord => tileCoord != _currentStage.CharacterInitialTile && tileCoord != _currentStage.WinTile);
 
             foreach (var tile in filteredTiles)
             {
-                List<EventConfig> filteredEvents = _config.Events.Where(e => e.Event.ValidateForTile(this, tile)).ToList();
-                var eventConfig = SelectEvent(filteredEvents, _config.TileWithoutEventSpawnRate);
+                List<EventConfig> filteredEvents = _currentStage.Events.Where(e => e.Event.ValidateForTile(this, tile)).ToList();
+                var eventConfig = SelectEvent(filteredEvents, _currentStage.TileWithoutEventSpawnRate);
                 if (eventConfig != null)
                 {
                     _tiles[tile].BindTileEvent(eventConfig.Event);
@@ -327,33 +399,26 @@ namespace Game.Gameplay
 
         private void GenerateTiles()
         {
-            int totalChance = _config.Tiles.Select(tileConfig => tileConfig.SpawnRate).Sum();
+            int totalChance = _currentStage.Tiles.Select(tileConfig => tileConfig.SpawnRate).Sum();
             
-            for (int i = 0; i < _config.Size.x; i++)
+            for (int i = 0; i < _currentStage.Size.x; i++)
             {
-                for (int j = 0; j < _config.Size.y; j++)
+                for (int j = 0; j < _currentStage.Size.y; j++)
                 {
                     var tileCoord = new Vector2Int(i, j);
-                    var tileConfig = SelectTile(_config.Tiles, totalChance);
-                    var tile = Instantiate(tileConfig.TilePrefab);
-                    SetupTile(tile, tileCoord, tileConfig);
+                    var tileConfig = SelectTile(_currentStage.Tiles, totalChance);
+                    var tile = Instantiate(tileConfig.TilePrefab, _tilesTransform);
+                    tile.gameObject.name = $"{tile.gameObject.name}_{tileCoord.x.ToString()}_{tileCoord.y.ToString()}";
+                    tile.transform.position = new Vector3(tileCoord.x, tileCoord.y, 0f);
+                    tile.Setup(tileCoord, tileConfig);
                     _tiles.Add(tileCoord, tile);
                 }
             }
         }
 
-        private void SetupTile(FieldTileController tile, Vector2Int tileCoords, TileConfig tileConfig)
-        {
-            var tileTransform = tile.transform;
-            tile.gameObject.name = $"{tile.gameObject.name}_{tileCoords.x.ToString()}_{tileCoords.y.ToString()}";
-            tileTransform.SetParent(_tilesTransform);
-            tileTransform.position = new Vector3(tileCoords.x, tileCoords.y, 0f);
-            tile.Setup(tileCoords, tileConfig);
-        }
-
         private void SetupGoals()
         {
-            var questTile = _config.WinTile;
+            var questTile = _currentStage.WinTile;
             _questMarker = Instantiate(_questMarkerPrefab, _tilesTransform);
             _questMarker.transform.position = CoordsIntoQuestMarkerPosition(questTile);
         }
@@ -386,6 +451,10 @@ namespace Game.Gameplay
                     Hp += resCount;
                     return;
                 
+                case PlayerResources.Attack:
+                    Attack += resCount;
+                    return;
+                
                 default:
                     throw new Exception("Unknown res type added");
             }
@@ -400,6 +469,9 @@ namespace Game.Gameplay
 
                 case PlayerResources.Health:
                     return Hp;
+                
+                case PlayerResources.Attack:
+                    return Attack;
                 
                 default:
                     throw new Exception("Unknown res type added");
@@ -418,6 +490,10 @@ namespace Game.Gameplay
                     Hp = resCount;
                     return;
                 
+                case PlayerResources.Attack:
+                    Attack = resCount;
+                    return;
+                
                 default:
                     throw new Exception("Unknown res type set");
             }
@@ -425,7 +501,7 @@ namespace Game.Gameplay
 
         public async UniTask ShuffleTiles()
         {
-            var unblockedTiles = _tiles.Where(pair => pair.Key != CharacterPosition && pair.Key != _config.WinTile).ToList();
+            var unblockedTiles = _tiles.Where(pair => pair.Key != CharacterPosition && pair.Key != _currentStage.WinTile).ToList();
             var tilePositions = unblockedTiles.Select(t => t.Key).ToList();
             var shuffledTiles = unblockedTiles.Select(t => t.Value).ToList();
             
@@ -509,25 +585,6 @@ namespace Game.Gameplay
     }
 
     [Serializable]
-    public class FieldConfig
-    {
-        public Vector2Int Size = new (5, 5);
-        public CharacterBaseParams CharacterBaseParams = new ();
-        public Vector2Int CharacterInitialTile = new(0, 0);
-        public List<TileConfig> Tiles;
-        public Vector2Int WinTile = new(0, 0);
-        public int TileWithoutEventSpawnRate = 1;
-        public List<EventConfig> Events;
-    }
-
-    [Serializable]
-    public class TileConfig
-    {
-        public FieldTileController TilePrefab;
-        public int SpawnRate = 1;
-        public int Cost = 1;
-    }
-
     public class CharacterBaseParams
     {
         public int Energy = 20;
@@ -535,33 +592,26 @@ namespace Game.Gameplay
         public int Attack = 2;
     }
 
-    [Serializable]
-    public class EventConfig
-    {
-        public TileEvent Event;
-        public int SpawnRate = 1;
-    }
-
     public enum GameState
     {
         AwaitingInput = 0,
         ProcessingTurn = 1,
         Win = 2,
-        Lost = 3
+        Lost = 3,
+        Loading = 4,
+        Menu = 5
     }
 
     public enum PlayerResources
     {
         Energy,
-        Health
+        Health,
+        Attack
     }
 
     public interface IGameController
     {
-        public int Energy { get; }
-        public int Hp { get; }
-        public int Attack { get; }
-
+        public int GetResource(PlayerResources type);
         public Vector2Int FieldSize { get; }
         public Vector2Int CharacterPosition { get; }
         public void AddResource(PlayerResources resType, int resCount);
