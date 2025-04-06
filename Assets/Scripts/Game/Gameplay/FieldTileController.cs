@@ -9,7 +9,9 @@ namespace Game.Gameplay
     {
         [SerializeField] private TextMeshPro _costText;
         [SerializeField] private Transform _eventMarkerTransform;
-        
+        [SerializeField] private string _tileFlavorText;
+
+        public string FlavorText => _tileFlavorText;
         public Vector2Int Coords { get; private set; }
         public TileConfig Config { get; private set; }
         [CanBeNull] public TileEvent TileEvent { get; private set; }

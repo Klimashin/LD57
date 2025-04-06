@@ -6,8 +6,10 @@ namespace Game.Gameplay.Events
     public class TileEvent : ScriptableObject
     {
         [SerializeField] private GameObject _eventMarkerPrefab;
+        [SerializeField] private string _eventHint;
 
         public GameObject MarkerPrefab => _eventMarkerPrefab;
+        public string EventHint => _eventHint;
 
         public virtual bool ValidateForTile(IGameController gameController, Vector2Int tile)
         {

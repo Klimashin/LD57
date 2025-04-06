@@ -22,6 +22,7 @@ namespace Game.Gameplay
         [SerializeField] private BattleUnit _characterBattlePrefab;
         [SerializeField] private float _characterMoveDuration = 0.5f;
         [SerializeField] private GameObject _questMarkerPrefab;
+        [SerializeField] private GameObject _moveMarkerPrefab;
         
         public int Energy { get; private set; }
         public int Hp { get; private set; }
@@ -31,13 +32,15 @@ namespace Game.Gameplay
         public Vector2Int CharacterPosition { get; private set; }
         public Vector2Int FieldSize => _config.Size;
         public BattleUnit CharacterBattlePrefab => _characterBattlePrefab;
+        public GameState State { get; private set; } = GameState.AwaitingInput;
+        public FieldTileController CurrentHoveredTile { get; private set; }
 
-        private GameState State { get; set; } = GameState.AwaitingInput;
         private readonly Dictionary<Vector2Int, FieldTileController> _tiles = new ();
         private GameObject _questMarker;
         private GameObject _characterMarker;
         private BattlePanel _battlePanel;
         private QuestPanel _questPanel;
+        private GameObject _moveMarker;
 
         [Inject]
         private void Inject(BattlePanel battlePanel, QuestPanel questPanel)
@@ -56,15 +59,56 @@ namespace Game.Gameplay
 
         private void Update()
         {
-            if (State != GameState.AwaitingInput)
+            HandleHover();
+            
+            if (State == GameState.AwaitingInput)
             {
+                HandlePlayerInput();
+            }
+        }
+
+        private void HandleHover()
+        {
+            if (Camera.main == null)
+            {
+                return;
+            }
+
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D hit = Physics2D.OverlapPoint(mouseWorldPos);
+
+            if (State == GameState.AwaitingInput && hit != null && hit.TryGetComponent<FieldTileController>(out var hitTile))
+            {
+                CurrentHoveredTile = hitTile;
+                if (ValidateMoveCoords(CurrentHoveredTile.Coords))
+                {
+                    _moveMarker.gameObject.SetActive(true);
+                    SetMoveMarkerPosition(CharacterPosition, CurrentHoveredTile.Coords);
+                }
+                else
+                {
+                    _moveMarker.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                CurrentHoveredTile = null;
+                _moveMarker.gameObject.SetActive(false);
+            }
+        }
+
+        private void HandlePlayerInput()
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0) && CurrentHoveredTile != null && ValidateMoveCoords(CurrentHoveredTile.Coords))
+            {
+                HandleTurn(CurrentHoveredTile.Coords).Forget();
                 return;
             }
             
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 var newCharCoords = CharacterPosition + new Vector2Int(-1, 0);
-                if (ValidateCharacterCoords(newCharCoords))
+                if (ValidateMoveCoords(newCharCoords))
                 {
                     HandleTurn(newCharCoords).Forget();
                 }
@@ -72,7 +116,7 @@ namespace Game.Gameplay
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 var newCharCoords = CharacterPosition + new Vector2Int(1, 0);
-                if (ValidateCharacterCoords(newCharCoords))
+                if (ValidateMoveCoords(newCharCoords))
                 {
                     HandleTurn(newCharCoords).Forget();
                 }
@@ -80,15 +124,15 @@ namespace Game.Gameplay
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 var newCharCoords = CharacterPosition + new Vector2Int(0, 1);
-                if (ValidateCharacterCoords(newCharCoords))
+                if (ValidateMoveCoords(newCharCoords))
                 {
-                   HandleTurn(newCharCoords).Forget();
+                    HandleTurn(newCharCoords).Forget();
                 }
             } 
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 var newCharCoords = CharacterPosition + new Vector2Int(0, -1);
-                if (ValidateCharacterCoords(newCharCoords))
+                if (ValidateMoveCoords(newCharCoords))
                 {
                     HandleTurn(newCharCoords).Forget();
                 }
@@ -178,6 +222,20 @@ namespace Game.Gameplay
             return characterCoords.x >= 0 && characterCoords.x < _config.Size.x 
                     && characterCoords.y >= 0 && characterCoords.y < _config.Size.y;
         }
+        
+        private bool ValidateMoveCoords(Vector2Int moveCoords)
+        {
+            bool insideMap = moveCoords.x >= 0
+                   && moveCoords.x < _config.Size.x
+                   && moveCoords.y >= 0
+                   && moveCoords.y < _config.Size.y;
+
+            bool validMove = (Mathf.Abs(moveCoords.x - CharacterPosition.x) == 1 && moveCoords.y == CharacterPosition.y)
+                             || (Mathf.Abs(moveCoords.y - CharacterPosition.y) == 1 &&
+                                 moveCoords.x == CharacterPosition.x);
+
+            return insideMap && validMove;
+        }
 
         private void InitializeCharacter()
         {
@@ -187,6 +245,8 @@ namespace Game.Gameplay
             Energy = _config.CharacterBaseParams.Energy;
             Hp = _config.CharacterBaseParams.Hp;
             Attack = _config.CharacterBaseParams.Attack;
+            _moveMarker = Instantiate(_moveMarkerPrefab);
+            _moveMarker.gameObject.SetActive(false);
         }
 
         private Vector3 CoordsIntoCharacterPosition(Vector2Int coords)
@@ -197,6 +257,33 @@ namespace Game.Gameplay
         private Vector3 CoordsIntoQuestMarkerPosition(Vector2Int coords)
         {
             return new (coords.x, coords.y + 0.3f, 0f);
+        }
+        
+        private void SetMoveMarkerPosition(Vector2Int from, Vector2Int to)
+        {
+            float xPoos = from.x + (to.x - from.x)/2f;
+            float yPos = 0.5f + from.y + (to.y - from.y)/2f;
+            _moveMarker.transform.position = new (xPoos, yPos, 0f);
+
+            float moveMarkerRotation = 0f;
+            if (to.y > from.y)
+            {
+                moveMarkerRotation = 0f;
+            }
+            else if (to.y < from.y)
+            {
+                moveMarkerRotation = 180f;
+            }
+            else if (to.x < from.x)
+            {
+                moveMarkerRotation = 90f;
+            }
+            else if (to.x > from.x)
+            {
+                moveMarkerRotation = -90f;
+            }
+
+            _moveMarker.transform.eulerAngles = new Vector3(0f, 0f, moveMarkerRotation);
         }
 
         private void GenerateEvents()
@@ -298,6 +385,21 @@ namespace Game.Gameplay
                 case PlayerResources.Health:
                     Hp += resCount;
                     return;
+                
+                default:
+                    throw new Exception("Unknown res type added");
+            }
+        }
+
+        public int GetResource(PlayerResources resType)
+        {
+            switch (resType)
+            {
+                case PlayerResources.Energy:
+                    return Energy;
+
+                case PlayerResources.Health:
+                    return Hp;
                 
                 default:
                     throw new Exception("Unknown res type added");
