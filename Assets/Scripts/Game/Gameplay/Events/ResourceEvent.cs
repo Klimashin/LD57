@@ -15,15 +15,15 @@ namespace Game.Gameplay.Events
         public override async UniTask HandleEvent(IGameController gameController)
         {
             await base.HandleEvent(gameController);
-
-
+            
             List<ResourceChange> resourceChanges = new();
             foreach (var resourceConfig in _config)
             {
                 int resourceAmount = Random.Range(resourceConfig.Amount.x, resourceConfig.Amount.y + 1);
                 resourceChanges.Add(new ResourceChange() { Type = resourceConfig.Type, Amount = resourceAmount });
-                await gameController.HandleResourceChange(resourceChanges, _eventDescription);
             }
+            
+            await gameController.HandleResourceChange(resourceChanges, _eventDescription);
         }
 
         [Serializable]

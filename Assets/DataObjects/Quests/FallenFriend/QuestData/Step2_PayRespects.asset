@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: Step2_PayRespects
+  m_EditorClassIdentifier: 
+  StepDescription: You sit quietly beside him, placing a small stone on their chassis.
+    Somehow this act fills you with determination.
+  Choices:
+  - ChoiceText: ...
+    NextSteps: []
+    ChoiceEvent: {fileID: 11400000, guid: 0367308175f91a34db03e8c150e7c2bc, type: 2}

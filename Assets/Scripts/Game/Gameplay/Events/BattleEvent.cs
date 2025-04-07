@@ -12,6 +12,7 @@ namespace Game.Gameplay.Events
     public class BattleEvent : TileEvent
     {
         [SerializeField] private List<MonsterConfig> _config;
+        [SerializeField] private TileEvent _battleWonEvent;
         
         public override async UniTask HandleEvent(IGameController gameController)
         {

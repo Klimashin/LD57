@@ -19,15 +19,21 @@ MonoBehaviour:
     SpawnRate: 1
     SpawnLimit: 0
   - TilePrefab: {fileID: 4603727243499186276, guid: f4bbb71fd5c90be4e80e777912c66512, type: 3}
-    SpawnRate: 1
+    SpawnRate: 3
     SpawnLimit: 0
   - TilePrefab: {fileID: 4603727243499186276, guid: 2360c32be5dd3c34995318b5458ea966, type: 3}
-    SpawnRate: 1
+    SpawnRate: 3
     SpawnLimit: 0
   - TilePrefab: {fileID: 4603727243499186276, guid: a474e989258e3a34fb8d4e18379e5e80, type: 3}
-    SpawnRate: 1
+    SpawnRate: 3
     SpawnLimit: 0
   - TilePrefab: {fileID: 4603727243499186276, guid: f0f45d5d6638f67468fac5d96f9b542d, type: 3}
+    SpawnRate: 3
+    SpawnLimit: 0
+  - TilePrefab: {fileID: 4603727243499186276, guid: be3c003d17a33624c9c0d59dd12baa68, type: 3}
+    SpawnRate: 1
+    SpawnLimit: 0
+  - TilePrefab: {fileID: 4603727243499186276, guid: d4f38798b10fe484a980d7daccb79cb3, type: 3}
     SpawnRate: 1
     SpawnLimit: 0
   GoalTileConfig:

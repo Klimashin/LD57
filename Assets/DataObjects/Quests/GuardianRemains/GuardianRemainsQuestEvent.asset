@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86e095e11d283e54fa42b35ef58a5732, type: 3}
-  m_Name: BatQuestEvent
+  m_Name: GuardianRemainsQuestEvent
   m_EditorClassIdentifier: 
   _eventMarkerPrefab: {fileID: 4996383885512054531, guid: ede4a3be996b4224681f7932d1b4cfbf, type: 3}
   _eventHint: This tile hums with possibility - fortune or misfortune, only one way
     to know.
   _quests:
   - Chance: 1
-    Quest: {fileID: 11400000, guid: 7049f843da00dea4fb20445089fbdcd9, type: 2}
+    Quest: {fileID: 11400000, guid: 3cbdd0aa5f5ac4c4fbfedecba389f771, type: 2}

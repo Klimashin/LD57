@@ -227,7 +227,7 @@ namespace Game.Gameplay
             
             if (CheckWinCondition())
             {
-                await OnStageCompletedWon();
+                await OnStageCompleted();
             }
             else if (CheckLoseCondition())
             {
@@ -256,12 +256,16 @@ namespace Game.Gameplay
             OnLose.Invoke();
         }
         
-        private async UniTask OnStageCompletedWon()
+        private async UniTask OnStageCompleted()
         {
             var stageGoalTile = _tiles[CharacterPosition];
             if (stageGoalTile.TryGetComponent<GoalTileController>(out var goalTile))
             {
                 await goalTile.PlayAnimation(_characterMarker);
+            }
+            else if (stageGoalTile.TryGetComponent<EndGameTileController>(out var endGameTile))
+            {
+                await endGameTile.PlayAnimation();
             }
             
             if (_currentStageIndex >= _stages.Count - 1)
