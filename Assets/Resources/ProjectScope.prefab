@@ -60,6 +60,12 @@ MonoBehaviour:
   _audioMixer: {fileID: 24100000, guid: d42710be7bce64543aa093828e8bee5d, type: 2}
   _audioClips:
     _keyData:
-    - gameplay
+    - track1
+    - track2
+    - track3
+    - track4
     _valueData:
-    - {fileID: 8300000, guid: cbd7430a5925ea94b82db9d8ac6541c2, type: 3}
+    - {fileID: 8300000, guid: 239e5a67cf2262c4ea05eb065f64ca48, type: 3}
+    - {fileID: 8300000, guid: 517cd35aed98aa7488ee53679fd07783, type: 3}
+    - {fileID: 8300000, guid: 95b84f14ac6e3af489f710ca126467f1, type: 3}
+    - {fileID: 8300000, guid: 83e891f10715c7149ac721304283a2e7, type: 3}

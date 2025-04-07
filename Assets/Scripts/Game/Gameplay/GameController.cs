@@ -8,8 +8,10 @@ using Game.Gameplay.Events;
 using Game.UI;
 using JetBrains.Annotations;
 using Reflex.Attributes;
+using Reflex.Core;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace Game.Gameplay
@@ -24,6 +26,9 @@ namespace Game.Gameplay
         [SerializeField] private float _characterMoveDuration = 0.5f;
         [SerializeField] private GameObject _moveMarkerPrefab;
         [SerializeField] private CharacterBaseParams _characterBaseParams = new ();
+        [SerializeField] private List<AudioSource> _gameplayTracks;
+        [SerializeField, TextArea] private string _loseDescription;
+        [SerializeField, TextArea] private string _winDescription;
         
         public int Energy { get; private set; }
         public int Hp { get; private set; }
@@ -75,6 +80,7 @@ namespace Game.Gameplay
 
             _currentStageIndex++;
             _currentStage = _stages[_currentStageIndex];
+            _gameplayTracks[_currentStageIndex].mute = false;
 
             CameraSetup();
             GenerateTiles();
@@ -252,7 +258,9 @@ namespace Game.Gameplay
         private async UniTask OnGameLost()
         {
             State = GameState.Lost;
-            Debug.Log("GAME LOST");
+            
+            await _resIncomePanel.Show(new List<ResourceEvent.ResourceChange>(), _loseDescription);
+            
             OnLose.Invoke();
         }
         
@@ -270,9 +278,10 @@ namespace Game.Gameplay
             
             if (_currentStageIndex >= _stages.Count - 1)
             {
-                State = GameState.Win;
-                OnWin.Invoke();
-                Debug.Log("GAME WON");
+                await _resIncomePanel.Show(new List<ResourceEvent.ResourceChange>(), _winDescription);
+                await _loadingOverlay.ShowOverlay();
+                var scene = SceneManager.LoadScene(2, new LoadSceneParameters(LoadSceneMode.Single));
+                ReflexSceneManager.PreInstallScene(scene, builder => {});;
             }
             else
             {
