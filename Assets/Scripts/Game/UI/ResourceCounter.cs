@@ -27,7 +27,7 @@ namespace Game.UI
             {
                 int prevValue = _cachedValue;
                 _cachedValue = currentRes;
-                AnimateResourceCounter(prevValue, _cachedValue, 1f);
+                AnimateResourceCounter(prevValue, _cachedValue, 1.5f);
             }
         }
         
