@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c47d262ffe2df74ba368b4489c2c104, type: 3}
-  m_Name: Battle3
+  m_Name: Battle1
   m_EditorClassIdentifier: 
   _eventMarkerPrefab: {fileID: 4996383885512054531, guid: aa0363644d87fd048bed4f12aabe18a9, type: 3}
+  _eventHint: This location smells like danger. And also burnt oil.
   _config:
   - Chance: 2
     MonsterData: {fileID: 11400000, guid: e3e1a2196120a3642a58958629beb7e7, type: 2}

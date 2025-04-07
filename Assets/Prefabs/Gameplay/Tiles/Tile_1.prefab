@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: _cost
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8025512771596005011, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
+      propertyPath: _tileFlavorText
+      value: Worn stone and soft shadows - this place feels like an undemanding passage.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

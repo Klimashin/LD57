@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f84a4b085f648949ba86cd0bc789920, type: 3}
-  m_Name: EnergyEvent1_2
+  m_Name: EnergyEvent1
   m_EditorClassIdentifier: 
   _eventMarkerPrefab: {fileID: 4996383885512054531, guid: 0fa13a882d972b945bf383f4b43f7cd7, type: 3}
+  _eventHint: Somehow you feel - something useful can be found here.
+  _eventDescription: You trip over a toolbox full of expired snacks and backup batteries.
+    Only one is useful.
   _config:
   - Type: 0
-    Amount: {x: 1, y: 2}
+    Amount: {x: 1, y: 1}

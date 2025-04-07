@@ -590,7 +590,7 @@ MonoBehaviour:
   _characterPosition: {fileID: 3542135192438163086}
   _liftTransform: {fileID: 889223682971264155}
   _liftAnimationDelay: 0.5
-  _liftAnimationDuration: 2.5
+  _liftAnimationDuration: 1.5
 --- !u!61 &1808370883703384550
 BoxCollider2D:
   m_ObjectHideFlags: 0

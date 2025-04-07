@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Game.Gameplay
         public async UniTask PlayAnimation(GameObject character)
         {
             character.transform.SetParent(_liftTransform);
+
+            await UniTask.Delay(TimeSpan.FromSeconds(_liftAnimationDelay));
 
             await _liftTransform.DOLocalMoveY(-0.5f, _liftAnimationDuration).ToUniTask();
         }

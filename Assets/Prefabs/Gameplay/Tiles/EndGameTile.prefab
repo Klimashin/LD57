@@ -369,7 +369,8 @@ MonoBehaviour:
   _cost: 1
   _costText: {fileID: 5373265134476832620}
   _eventMarkerTransform: {fileID: 8348556989845729856}
-  _tileFlavorText: 
+  _tileFlavorText: "The pull you\u2019ve felt since the beginning is overwhelming
+    now. This is the place."
   _characterPosition: {fileID: 3466641006942049873}
   _liftTransform: {fileID: 0}
   _liftAnimationDelay: 0.5

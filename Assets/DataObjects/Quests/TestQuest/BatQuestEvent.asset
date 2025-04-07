@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: BatQuestEvent
   m_EditorClassIdentifier: 
   _eventMarkerPrefab: {fileID: 4996383885512054531, guid: ede4a3be996b4224681f7932d1b4cfbf, type: 3}
+  _eventHint: This tile hums with possibility - fortune or misfortune, only one way
+    to know.
   _quests:
   - Chance: 1
     Quest: {fileID: 11400000, guid: 7049f843da00dea4fb20445089fbdcd9, type: 2}
