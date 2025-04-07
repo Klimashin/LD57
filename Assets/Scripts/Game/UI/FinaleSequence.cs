@@ -18,6 +18,7 @@ namespace Game.UI
         [SerializeField] private RectTransform _authors;
         [SerializeField] private LoadingOverlay _loadingOverlay;
         [SerializeField] private AudioSource _audio;
+        [SerializeField] private float _maxVolume = 0.3f;
 
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -32,7 +33,7 @@ namespace Game.UI
 
             _audio.volume = 0f;
             _audio.Play();
-            _audio.DOFade(1f, 5f);
+            _audio.DOFade(0.6f, 5f);
 
             await _characterPlatform.DOMoveY(300f, 5f).ToUniTask();
 

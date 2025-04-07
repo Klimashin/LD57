@@ -48,7 +48,7 @@ MonoBehaviour:
   - Event: {fileID: 11400000, guid: 14429a9e4e6182b49a17900ee2e5e284, type: 2}
     SpawnRate: 1
   - Event: {fileID: 11400000, guid: e47eba1227526bc47acca05b45981fb3, type: 2}
-    SpawnRate: 1
+    SpawnRate: 2
   - Event: {fileID: 11400000, guid: 062c1cdf6294d70439b694beaa02cc1c, type: 2}
     SpawnRate: 2
   - Event: {fileID: 11400000, guid: 14f29b4a0e91bbf4fa12dfd102e8a03f, type: 2}
