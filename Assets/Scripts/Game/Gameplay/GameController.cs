@@ -281,7 +281,7 @@ namespace Game.Gameplay
                 await _resIncomePanel.Show(new List<ResourceEvent.ResourceChange>(), _winDescription);
                 await _loadingOverlay.ShowOverlay();
                 var scene = SceneManager.LoadScene(2, new LoadSceneParameters(LoadSceneMode.Single));
-                ReflexSceneManager.PreInstallScene(scene, builder => {});;
+                ReflexSceneManager.PreInstallScene(scene, builder => {});
             }
             else
             {

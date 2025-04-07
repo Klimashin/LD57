@@ -1,10 +1,14 @@
 using System;
+using System.Collections.Generic;
 using BrunoMikoski.AnimationSequencer;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Game.Core;
 using Game.Data;
 using Game.Gameplay;
+using Reflex.Attributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.UI
 {
@@ -17,11 +21,19 @@ namespace Game.UI
         [SerializeField] private float _battleEndDelay = 1f;
         [SerializeField] private RectTransform _panelRect;
         [SerializeField] private AnimationSequencerController _battleStartupAnimation;
+        [SerializeField] private List<AudioClip> _hitSfx;
 
         private MonsterData _monsterData;
         private IGameController _gameController;
         private BattleUnit _characterModel;
         private BattleUnit _monsterModel;
+        private SoundManager _soundManager;
+
+        [Inject]
+        private void Inject(SoundManager soundManager)
+        {
+            _soundManager = soundManager;
+        }
 
         public async UniTask RunBattle(MonsterData monster, IGameController gameController)
         {
@@ -53,11 +65,21 @@ namespace Game.UI
             {
                 if (charactersTurn)
                 {
-                    await _characterModel.AttackRoutine(_monsterModel.TakeDamage);
+                    await _characterModel.AttackRoutine(damage =>
+                    {
+                        int sfxIndex = Random.Range(0, _hitSfx.Count);
+                        _soundManager.PlayOneShot(_hitSfx[sfxIndex]);
+                        _monsterModel.TakeDamage(damage);
+                    });
                 }
                 else
                 {
-                    await _monsterModel.AttackRoutine(_characterModel.TakeDamage);
+                    await _monsterModel.AttackRoutine(damage =>
+                    {
+                        int sfxIndex = Random.Range(0, _hitSfx.Count);
+                        _soundManager.PlayOneShot(_hitSfx[sfxIndex]);
+                        _characterModel.TakeDamage(damage);
+                    });
                 }
 
                 await UniTask.Delay(TimeSpan.FromSeconds(_delayBetweenTurns));

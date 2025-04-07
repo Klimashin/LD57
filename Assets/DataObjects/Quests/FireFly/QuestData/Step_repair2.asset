@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: Step_repair2
+  m_EditorClassIdentifier: 
+  StepDescription: "You use the station's resources to check systems and perform
+    hull maintenance. \nRemnants of energy leave the station and the fireflies are
+    scattered in different corridors by a hundred little lights"
+  Choices:
+  - ChoiceText: ...
+    NextSteps: []
+    ChoiceEvent: {fileID: 11400000, guid: 6b548432d8b4ee74b82b3ed047262fe7, type: 2}

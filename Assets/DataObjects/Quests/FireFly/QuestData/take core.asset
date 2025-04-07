@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f84a4b085f648949ba86cd0bc789920, type: 3}
+  m_Name: take core
+  m_EditorClassIdentifier: 
+  _eventMarkerPrefab: {fileID: 0}
+  _eventHint: 
+  _eventDescription: You feel Jolted. And new sensors help you to find a way out.
+  _config:
+  - Type: 0
+    Amount: {x: 7, y: 10}
+  - Type: 2
+    Amount: {x: 1, y: 1}
+  - Type: 1
+    Amount: {x: -3, y: -5}

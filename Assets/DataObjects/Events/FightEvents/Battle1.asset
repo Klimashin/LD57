@@ -15,7 +15,6 @@ MonoBehaviour:
   _eventMarkerPrefab: {fileID: 4996383885512054531, guid: aa0363644d87fd048bed4f12aabe18a9, type: 3}
   _eventHint: This location smells like danger. And also burnt oil.
   _config:
-  - Chance: 2
-    MonsterData: {fileID: 11400000, guid: e3e1a2196120a3642a58958629beb7e7, type: 2}
   - Chance: 1
-    MonsterData: {fileID: 11400000, guid: 16d95e85e54516747a75685f5a6d11e9, type: 2}
+    MonsterData: {fileID: 11400000, guid: e3e1a2196120a3642a58958629beb7e7, type: 2}
+  _battleWonEvent: {fileID: 0}

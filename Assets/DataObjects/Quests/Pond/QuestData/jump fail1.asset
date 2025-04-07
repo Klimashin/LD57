@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f84a4b085f648949ba86cd0bc789920, type: 3}
+  m_Name: jump fail1
+  m_EditorClassIdentifier: 
+  _eventMarkerPrefab: {fileID: 0}
+  _eventHint: 
+  _eventDescription: "you managed to get to the other side but in the process you
+    plunged into the liquid several times. \nsome of the intrnal parts were burned
+    and it took a lot of effort to restore the mobility of the joints"
+  _config:
+  - Type: 1
+    Amount: {x: -1, y: -2}
+  - Type: 0
+    Amount: {x: -1, y: -1}

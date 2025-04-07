@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: Step1
+  m_EditorClassIdentifier: 
+  StepDescription: 'As you pass through another room, your eye is drawn to an engineering
+    workbench, on which lies an unfinished mechanical device and a scattering of
+    parts.
+
+    You can''t understand the purpose of the device, but a detailed blueprint
+    appears in your memory, with the help of which you can repair it.'
+  Choices:
+  - ChoiceText: Repair device
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: 678bbc75050416b4eb9b74ad80a89cf4, type: 2}
+    ChoiceEvent: {fileID: 0}
+  - ChoiceText: search for usefull parts for yourself
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: 1516cd92109b9f240939d4deabe4a266, type: 2}
+    ChoiceEvent: {fileID: 0}

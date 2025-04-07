@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
   m_Name: Step_EggStealed
   m_EditorClassIdentifier: 
-  StepDescription: You successfuly stealed an egg. Today you'll be feasting at your
-    campsite.
+  StepDescription: You snatch the battery without waking the beast.
   Choices:
   - ChoiceText: ...
     NextSteps: []

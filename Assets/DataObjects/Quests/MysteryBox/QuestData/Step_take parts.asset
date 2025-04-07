@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: Step_take parts
+  m_EditorClassIdentifier: 
+  StepDescription: "You examined all the parts on the table and disassembled the
+    device in search of the right components for you. \nDespite all your efforts
+    your search yielded no results and you decided to continue on your way"
+  Choices:
+  - ChoiceText: ...
+    NextSteps: []
+    ChoiceEvent: {fileID: 11400000, guid: 9dbb9a5041e603e488028b7999b1cc79, type: 2}

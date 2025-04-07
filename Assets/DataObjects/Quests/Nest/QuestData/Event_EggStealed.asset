@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Event_EggStealed
   m_EditorClassIdentifier: 
   _eventMarkerPrefab: {fileID: 0}
+  _eventHint: 
+  _eventDescription: Power surges into your core.
   _config:
   - Type: 0
     Amount: {x: 5, y: 5}

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: stealth
+  m_EditorClassIdentifier: 
+  StepDescription: "You begin to sneak past the creatures. Trying to keep your distance
+    and hide behind rocks, you move along the shore. \nAlmost reaching your destination,
+    you see another group of creatures moving towards you. \nLuckily for you, their
+    attention is drawn to other creatures and they run past your hiding place and
+    engage in a fight with each other.\nTaking advantage of the moment, you quickly
+    leave this place"
+  Choices:
+  - ChoiceText: ...
+    NextSteps: []
+    ChoiceEvent: {fileID: 0}

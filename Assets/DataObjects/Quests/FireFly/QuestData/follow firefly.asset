@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: follow firefly
+  m_EditorClassIdentifier: 
+  StepDescription: 'You carefully follow the firefly''s dim light. There are more
+    forks on the way, but your glowing companion confidently makes turn after turn.
+
+    half
+    an hour later you notice that behind the next turn there is a room full of bright
+    light.
+
+    hundreds of fireflies are circling around the room in the center
+    of which there is a working repair station with a connected energy core.'
+  Choices:
+  - ChoiceText: use station for quick repair
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: e3ecde20b1d6ad2428f25fcb1c9a190e, type: 2}
+    ChoiceEvent: {fileID: 0}
+  - ChoiceText: take out energy core and boost your systems
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: 08c78d6070fbc5848a49338cb0f038b3, type: 2}
+    ChoiceEvent: {fileID: 0}

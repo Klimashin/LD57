@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: Step1
+  m_EditorClassIdentifier: 
+  StepDescription: 'your path is blocked by a massive metal door with a terminal
+    in the center.
+
+    when you approach, the terminal activates and displays a
+    message:
+
+    Locked until the miner''s quota is closed.
+
+    Shift completion
+    status - 99%
+
+
+    It looks like the door will open if you complete the work.
+    Not far away you notice carts with ore and a receiving station
+
+    you can try
+    to find another way, but the nearest bypass is located quite far away'
+  Choices:
+  - ChoiceText: Take equipment and start to unload cart
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: 43ef5fb02172a384180aa2352dc48e09, type: 2}
+    ChoiceEvent: {fileID: 0}
+  - ChoiceText: Its make no sense! Try to found another path
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: 40cadc1ec323f6a42b8c007fe256a586, type: 2}
+    ChoiceEvent: {fileID: 0}

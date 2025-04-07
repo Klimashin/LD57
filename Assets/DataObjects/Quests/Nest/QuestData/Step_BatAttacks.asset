@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
   m_Name: Step_BatAttacks
   m_EditorClassIdentifier: 
-  StepDescription: Furious mother-bat attack you defending her children.
+  StepDescription: The creature lashes out in a blur of claws and static.
   Choices:
   - ChoiceText: Defend yourself!
     NextSteps: []

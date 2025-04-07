@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
   m_Name: Step_WalkAway
   m_EditorClassIdentifier: 
-  StepDescription: You walked away.
+  StepDescription: "You back away. Some things just aren\u2019t worth the teeth."
   Choices:
   - ChoiceText: ...
     NextSteps: []

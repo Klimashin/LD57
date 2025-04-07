@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: decipher1
+  m_EditorClassIdentifier: 
+  StepDescription: 'You listen carefully to the noise, trying to discern a pattern.
+    Soon you begin to perceive information.
+
+    This is not a message. This is a
+    repeating transmission of the facility status report.
+
+    Multiple equipment
+    failure in 65% of the facility
+
+    Initiating evacuation protocol
+
+    Unable
+    - no contact...
+
+    Emergency power systems activated
+
+    Emergency teams activated
+
+    Initiating
+    evacuation protocol
+
+    Unable - no contact...
+
+    Communication with bays
+    B and C disrupted
+
+    Unidentified power surge in the Gamma facility
+
+    Initiating
+    evacuation protocol
+
+    Unable - no contact...
+
+    Lost contact with emergency
+    teams
+
+    Initiating evacuation protocol
+
+    Unable - no contact...'
+  Choices:
+  - ChoiceText: ...
+    NextSteps: []
+    ChoiceEvent: {fileID: 0}

@@ -88,13 +88,8 @@ namespace Game.Core
         }
 
         private readonly List<AudioSource> _oneShotAudio = new ();
-        public void PlayOneShot(string clipName, float pitch = 1f)
+        public void PlayOneShot(AudioClip clip, float pitch = 1f)
         {
-            if (!_audioDictionary.TryGetValue(clipName, out var clip))
-            {
-                Debug.LogError($"Missing clip with name {clipName}");
-            }
-            
             var oneShotAudio = _oneShotAudio.Find(source => source.isPlaying == false);
             if (oneShotAudio == null)
             {

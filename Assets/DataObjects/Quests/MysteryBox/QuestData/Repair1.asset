@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: Repair1
+  m_EditorClassIdentifier: 
+  StepDescription: 'Your hands move automatically. Piece by piece you place the parts
+    in the right order and the device begins to take on a finished look.
+
+    A shiny
+    cylinder covered in strange patterns with a single button on it. Your hand reaches
+    out and presses the button. The cylinder opens like a metallic flower, setting
+    in motion the mechanisms inside that begin to creak and hum. Inside the cylinder
+    there is a wooden figure of a four-legged animal strung on a pole. The pole rotates
+    the animal under the piercing screech of the mechanisms. '
+  Choices:
+  - ChoiceText: ...
+    NextSteps: []
+    ChoiceEvent: {fileID: 11400000, guid: 9f389d910d8dbcf45a3f4f1e71a0584b, type: 2}

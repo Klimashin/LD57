@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
   m_Name: Step1
   m_EditorClassIdentifier: 
-  StepDescription: You found a nest of a wild bat. Do you want to try and steal an
-    egg?
+  StepDescription: "Tucked between two crystal-covered rocks, you spot a nest\u2014woven
+    from wires, bones, and shredded instruction manuals. Curled inside is a lizard-shaped
+    creature with feline eyes and twitching antennae. It\u2019s asleep. Right next
+    to it, nestled like an egg, is a shiny accumulator battery humming with power."
   Choices:
   - ChoiceText: Try to steal it.
     NextSteps:

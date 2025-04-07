@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: Step1
+  m_EditorClassIdentifier: 
+  StepDescription: 'you pass through a large cave lined with metal. In several places
+    you see barely woking lights. In the center of the room is a communications console,
+    loudly broadcasting static.
+
+    You were about to leavey, but for a moment you
+    thought you could discern a binary message in the noise.'
+  Choices:
+  - ChoiceText: Try to decipher message
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: f1d9e3ef2398b6849a711c9818b3183b, type: 2}
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: dcda7148926ad134481c9bb419a5a6c0, type: 2}
+    ChoiceEvent: {fileID: 0}
+  - ChoiceText: dont waste your time
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: 9ae2bf192184c2c4db21c92fff0091f0, type: 2}
+    ChoiceEvent: {fileID: 0}
