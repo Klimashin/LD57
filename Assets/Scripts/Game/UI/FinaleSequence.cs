@@ -17,6 +17,7 @@ namespace Game.UI
         [SerializeField] private RectTransform _characterPlatform;
         [SerializeField] private RectTransform _authors;
         [SerializeField] private LoadingOverlay _loadingOverlay;
+        [SerializeField] private AudioSource _audio;
 
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -29,7 +30,11 @@ namespace Game.UI
         {
             await _loadingOverlay.HideOverlay();
 
-            await _characterPlatform.DOMoveY(100f, 5f).ToUniTask();
+            _audio.volume = 0f;
+            _audio.Play();
+            _audio.DOFade(1f, 5f);
+
+            await _characterPlatform.DOMoveY(300f, 5f).ToUniTask();
 
             foreach (var rectTransform in _cogs)
             {
@@ -39,7 +44,7 @@ namespace Game.UI
                     .SetLoops(-1);
             }
             
-            _characterPlatform.DOMoveY(-2000f, 7f);
+            _characterPlatform.DOMoveY(-500f, 7f);
 
             _cancellationTokenSource = new CancellationTokenSource();
 

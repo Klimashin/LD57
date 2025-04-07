@@ -4250,6 +4250,7 @@ MonoBehaviour:
   _characterPlatform: {fileID: 326464344}
   _authors: {fileID: 663042555}
   _loadingOverlay: {fileID: 1850761002}
+  _audio: {fileID: 1193112962}
 --- !u!82 &1193112962
 AudioSource:
   m_ObjectHideFlags: 0
