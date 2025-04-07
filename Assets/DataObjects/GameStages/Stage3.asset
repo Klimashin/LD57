@@ -27,7 +27,11 @@ MonoBehaviour:
   - TilePrefab: {fileID: 4603727243499186276, guid: a474e989258e3a34fb8d4e18379e5e80, type: 3}
     SpawnRate: 1
     Cost: 3
-  WinTile: {x: 3, y: 3}
+  GoalTileConfig:
+    TilePrefab: {fileID: 7308571537941356181, guid: c9a0744f2b4a1d9428f9f6262b0696f4, type: 3}
+    SpawnRate: 1
+    Cost: 1
+  GoalTile: {x: 3, y: 3}
   TileWithoutEventSpawnRate: 0
   Events:
   - Event: {fileID: 11400000, guid: 831fc923b1a7d5e4d827ea7b1e2132c3, type: 2}

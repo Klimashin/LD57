@@ -8,13 +8,15 @@ namespace Game.Gameplay
 {
     public class FieldTileController : MonoBehaviour
     {
-        [SerializeField] private TextMeshPro _costText;
-        [SerializeField] private Transform _eventMarkerTransform;
-        [SerializeField] private string _tileFlavorText;
+        [SerializeField] protected TextMeshPro _costText;
+        [SerializeField] protected Transform _eventMarkerTransform;
+        [SerializeField, TextArea] protected string _tileFlavorText;
+        [SerializeField] protected Transform _characterPosition;
 
         public string FlavorText => _tileFlavorText;
         public Vector2Int Coords { get; private set; }
         public TileConfig Config { get; private set; }
+        public Vector3 CharacterPosition => _characterPosition.transform.position;
         [CanBeNull] public TileEvent TileEvent { get; private set; }
 
         private GameObject _eventMarker;

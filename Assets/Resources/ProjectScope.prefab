@@ -57,17 +57,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c15ec326acff9442b370c8803e11072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scenes:
-    _keyData:
-    - Menu
-    _valueData:
-    - m_AssetGUID: b77fc533e9db3e64b8c0c97a55c8452c
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 1
   _audioMixer: {fileID: 24100000, guid: d42710be7bce64543aa093828e8bee5d, type: 2}
   _audioClips:
     _keyData:
     - gameplay
     _valueData:
-    - {fileID: 8300000, guid: 2873458472377524fa43dbb2dde16bfe, type: 3}
+    - {fileID: 8300000, guid: cbd7430a5925ea94b82db9d8ac6541c2, type: 3}

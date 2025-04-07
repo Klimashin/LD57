@@ -12,7 +12,8 @@ namespace Game.Data
         public Vector2Int Size = new (5, 5);
         public Vector2Int CharacterInitialTile = new(0, 0);
         public List<TileConfig> Tiles;
-        public Vector2Int WinTile = new(0, 0);
+        public TileConfig GoalTileConfig;
+        public Vector2Int GoalTile = new(0, 0);
         public int TileWithoutEventSpawnRate = 1;
         public List<EventConfig> Events;
         public CameraConfig CameraConfig;

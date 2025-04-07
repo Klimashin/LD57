@@ -21,7 +21,6 @@ namespace Game.Gameplay
         [SerializeField] private GameObject _characterMarkerPrefab;
         [SerializeField] private BattleUnit _characterBattlePrefab;
         [SerializeField] private float _characterMoveDuration = 0.5f;
-        [SerializeField] private GameObject _questMarkerPrefab;
         [SerializeField] private GameObject _moveMarkerPrefab;
         [SerializeField] private CharacterBaseParams _characterBaseParams = new ();
         
@@ -77,7 +76,6 @@ namespace Game.Gameplay
 
             CameraSetup();
             GenerateTiles();
-            SetupGoals();
             GenerateEvents();
             InitializeCharacter();
 
@@ -211,7 +209,7 @@ namespace Game.Gameplay
             Debug.Log($"MOVING CHARACTER TO ({newCoords.x.ToString()}, {newCoords.y.ToString()}) ({_tiles[CharacterPosition].gameObject.name})");
 
             CharacterPosition = newCoords;
-            await _characterMarker.transform.DOMove(CoordsIntoCharacterPosition(CharacterPosition), _characterMoveDuration).ToUniTask();
+            await _characterMarker.transform.DOMove(_tiles[CharacterPosition].CharacterPosition, _characterMoveDuration).ToUniTask();
 
             await HandleTileEntrance(_tiles[CharacterPosition]);
 
@@ -224,14 +222,14 @@ namespace Game.Gameplay
                 Energy = 0;
                 Hp -= damage;
             }
-
-            if (CheckLoseCondition())
+            
+            if (CheckWinCondition())
+            {
+                await OnStageCompletedWon();
+            }
+            else if (CheckLoseCondition())
             {
                 await OnGameLost();
-            }
-            else if (CheckWinCondition())
-            {
-                await OnGameWon();
             }
             else
             {
@@ -246,7 +244,7 @@ namespace Game.Gameplay
         
         private bool CheckWinCondition()
         {
-            return CharacterPosition == _currentStage.WinTile;
+            return CharacterPosition == _currentStage.GoalTile;
         }
 
         private async UniTask OnGameLost()
@@ -256,9 +254,13 @@ namespace Game.Gameplay
             OnLose.Invoke();
         }
         
-        private async UniTask OnGameWon()
+        private async UniTask OnStageCompletedWon()
         {
-            _questMarker.SetActive(false);
+            var stageGoalTile = _tiles[CharacterPosition];
+            if (stageGoalTile.TryGetComponent<GoalTileController>(out var goalTile))
+            {
+                await goalTile.PlayAnimation(_characterMarker);
+            }
             
             if (_currentStageIndex >= _stages.Count - 1)
             {
@@ -309,7 +311,7 @@ namespace Game.Gameplay
             CharacterPosition = _currentStage.CharacterInitialTile;
             
             _characterMarker = Instantiate(_characterMarkerPrefab, _tilesTransform);
-            _characterMarker.transform.position = CoordsIntoCharacterPosition(CharacterPosition);
+            _characterMarker.transform.position = _tiles[CharacterPosition].CharacterPosition;
             _moveMarker = Instantiate(_moveMarkerPrefab, _tilesTransform);
             _moveMarker.gameObject.SetActive(false);
 
@@ -321,16 +323,6 @@ namespace Game.Gameplay
             }
         }
 
-        private Vector3 CoordsIntoCharacterPosition(Vector2Int coords)
-        {
-            return new (coords.x, coords.y + 0.3f, 0f);
-        }
-        
-        private Vector3 CoordsIntoQuestMarkerPosition(Vector2Int coords)
-        {
-            return new (coords.x, coords.y + 0.3f, 0f);
-        }
-        
         private void SetMoveMarkerPosition(Vector2Int from, Vector2Int to)
         {
             float xPoos = from.x + (to.x - from.x)/2f;
@@ -361,7 +353,7 @@ namespace Game.Gameplay
         private void GenerateEvents()
         {
             IEnumerable<Vector2Int> filteredTiles =
-                _tiles.Keys.Where(tileCoord => tileCoord != _currentStage.CharacterInitialTile && tileCoord != _currentStage.WinTile);
+                _tiles.Keys.Where(tileCoord => tileCoord != _currentStage.CharacterInitialTile && tileCoord != _currentStage.GoalTile);
 
             foreach (var tile in filteredTiles)
             {
@@ -400,13 +392,15 @@ namespace Game.Gameplay
         private void GenerateTiles()
         {
             int totalChance = _currentStage.Tiles.Select(tileConfig => tileConfig.SpawnRate).Sum();
-            
+
             for (int i = 0; i < _currentStage.Size.x; i++)
             {
                 for (int j = 0; j < _currentStage.Size.y; j++)
                 {
                     var tileCoord = new Vector2Int(i, j);
-                    var tileConfig = SelectTile(_currentStage.Tiles, totalChance);
+                    var tileConfig = tileCoord.x == _currentStage.GoalTile.x && tileCoord.y == _currentStage.GoalTile.y 
+                        ? _currentStage.GoalTileConfig 
+                        : SelectTile(_currentStage.Tiles, totalChance);
                     var tile = Instantiate(tileConfig.TilePrefab, _tilesTransform);
                     tile.gameObject.name = $"{tile.gameObject.name}_{tileCoord.x.ToString()}_{tileCoord.y.ToString()}";
                     tile.transform.position = new Vector3(tileCoord.x, tileCoord.y, 0f);
@@ -414,13 +408,6 @@ namespace Game.Gameplay
                     _tiles.Add(tileCoord, tile);
                 }
             }
-        }
-
-        private void SetupGoals()
-        {
-            var questTile = _currentStage.WinTile;
-            _questMarker = Instantiate(_questMarkerPrefab, _tilesTransform);
-            _questMarker.transform.position = CoordsIntoQuestMarkerPosition(questTile);
         }
 
         private TileConfig SelectTile(List<TileConfig> tilesSet, int totalChance)
@@ -501,7 +488,7 @@ namespace Game.Gameplay
 
         public async UniTask ShuffleTiles()
         {
-            var unblockedTiles = _tiles.Where(pair => pair.Key != CharacterPosition && pair.Key != _currentStage.WinTile).ToList();
+            var unblockedTiles = _tiles.Where(pair => pair.Key != CharacterPosition && pair.Key != _currentStage.GoalTile).ToList();
             var tilePositions = unblockedTiles.Select(t => t.Key).ToList();
             var shuffledTiles = unblockedTiles.Select(t => t.Value).ToList();
             
