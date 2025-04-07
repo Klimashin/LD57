@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 8025512771596005011}
   - component: {fileID: 5303973096004595473}
   m_Layer: 0
-  m_Name: ForestTile
+  m_Name: Tile_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d8e9396a152f944828ffe9ee395819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cost: 2
   _costText: {fileID: 1878648634491414939}
   _eventMarkerTransform: {fileID: 2549011587243603127}
   _tileFlavorText: 

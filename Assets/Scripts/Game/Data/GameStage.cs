@@ -24,7 +24,6 @@ namespace Game.Data
     {
         public FieldTileController TilePrefab;
         public int SpawnRate = 1;
-        public int Cost = 1;
     }
     
     [Serializable]

@@ -213,7 +213,7 @@ namespace Game.Gameplay
 
             await HandleTileEntrance(_tiles[CharacterPosition]);
 
-            Energy -= _tiles[CharacterPosition].Config.Cost;
+            Energy -= _tiles[CharacterPosition].Cost;
             Debug.Log($"NEW ENERGY LEVEL: {Energy.ToString()}");
 
             if (Energy < 0)
@@ -404,7 +404,7 @@ namespace Game.Gameplay
                     var tile = Instantiate(tileConfig.TilePrefab, _tilesTransform);
                     tile.gameObject.name = $"{tile.gameObject.name}_{tileCoord.x.ToString()}_{tileCoord.y.ToString()}";
                     tile.transform.position = new Vector3(tileCoord.x, tileCoord.y, 0f);
-                    tile.Setup(tileCoord, tileConfig);
+                    tile.Setup(tileCoord);
                     _tiles.Add(tileCoord, tile);
                 }
             }

@@ -11,10 +11,10 @@ PrefabInstance:
     - target: {fileID: 1215900952200734026, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 52a0138f2afce704886c31bd7318e2ef, type: 3}
+      objectReference: {fileID: 21300000, guid: dc3895ef7af25f744bd8a80466249d87, type: 3}
     - target: {fileID: 3443863369710649814, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
       propertyPath: m_Name
-      value: MountainsTile
+      value: Tile_1
       objectReference: {fileID: 0}
     - target: {fileID: 6008852864634916294, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
       propertyPath: m_LocalPosition.x
@@ -55,6 +55,10 @@ PrefabInstance:
     - target: {fileID: 6008852864634916294, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8025512771596005011, guid: 5fc3c89f4ae61944e843e88085440255, type: 3}
+      propertyPath: _cost
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
