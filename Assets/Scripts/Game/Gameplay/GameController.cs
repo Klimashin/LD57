@@ -272,13 +272,14 @@ namespace Game.Gameplay
             {
                 await goalTile.PlayAnimation(_characterMarker);
             }
-            else if (stageGoalTile.TryGetComponent<EndGameTileController>(out var endGameTile))
-            {
-                await endGameTile.PlayAnimation();
-            }
-            
+
             if (_currentStageIndex >= _stages.Count - 1)
             {
+                foreach (var gameplayTrack in _gameplayTracks)
+                {
+                    gameplayTrack.DOFade(0f, 1f);
+                }
+                
                 await _resIncomePanel.Show(new List<ResourceEvent.ResourceChange>(), _winDescription);
                 await _loadingOverlay.ShowOverlay();
                 var scene = SceneManager.LoadScene(2, new LoadSceneParameters(LoadSceneMode.Single));

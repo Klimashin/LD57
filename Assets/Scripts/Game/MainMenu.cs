@@ -23,22 +23,14 @@ namespace Game
         [SerializeField] private List<TextMeshProUGUI> _introText;
         [SerializeField] private float _introTextReplicaDelay = 0.5f;
         [SerializeField] private float _typingSpeed = 0.05f;
+        [SerializeField] private AudioSource _audio;
         
-        private SoundManager _soundManager;
         private UniTask _typingTask;
         private CancellationTokenSource _typingCancellationTokenSource;
-        
-        [Inject]  
-        private void Inject(SoundManager soundManager)
-        {
-            _soundManager = soundManager;
-        }
 
         private void Start()
         {
             _startGameButton.onClick.AddListener(() => OnStartGameButtonClicked().Forget());
-            
-            _soundManager.PlayMusicClip("gameplay");
 
             EntranceSequence().Forget();
         }
@@ -48,6 +40,10 @@ namespace Game
             await _loadingOverlay.HideOverlay();
             
             _menuUI.gameObject.SetActive(true);
+
+            _audio.volume = 0f;
+            _audio.Play();
+            _audio.DOFade(1f, 1f);
         }
 
         private async UniTask OnStartGameButtonClicked()
@@ -83,6 +79,8 @@ namespace Game
             {
                 await UniTask.DelayFrame(1);
             }
+            
+            _audio.DOFade(1f, 0.5f);
 
             await _loadingOverlay.ShowOverlay();
             var scene = SceneManager.LoadScene(1, new LoadSceneParameters(LoadSceneMode.Single));

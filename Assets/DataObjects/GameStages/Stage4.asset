@@ -37,7 +37,7 @@ MonoBehaviour:
     SpawnRate: 1
     SpawnLimit: 0
   GoalTileConfig:
-    TilePrefab: {fileID: 1553407586272754920, guid: 42ba90b1a6ba8fc4a82d1bddb8043de0, type: 3}
+    TilePrefab: {fileID: 7308571537941356181, guid: c1656dc95100dd049b3e9952f4188af8, type: 3}
     SpawnRate: 1
     SpawnLimit: 0
   GoalTile: {x: 4, y: 4}
