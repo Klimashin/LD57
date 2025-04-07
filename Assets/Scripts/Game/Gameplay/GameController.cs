@@ -217,10 +217,7 @@ namespace Game.Gameplay
             Debug.Log($"MOVING CHARACTER TO ({newCoords.x.ToString()}, {newCoords.y.ToString()}) ({_tiles[CharacterPosition].gameObject.name})");
 
             CharacterPosition = newCoords;
-            await _characterMarker.transform.DOMove(_tiles[CharacterPosition].CharacterPosition, _characterMoveDuration).ToUniTask();
-
-            await HandleTileEntrance(_tiles[CharacterPosition]);
-
+            
             Energy -= _tiles[CharacterPosition].Cost;
             Debug.Log($"NEW ENERGY LEVEL: {Energy.ToString()}");
 
@@ -231,6 +228,10 @@ namespace Game.Gameplay
                 Hp -= damage;
             }
             
+            await _characterMarker.transform.DOMove(_tiles[CharacterPosition].CharacterPosition, _characterMoveDuration).ToUniTask();
+
+            await HandleTileEntrance(_tiles[CharacterPosition]);
+
             if (CheckWinCondition())
             {
                 await OnStageCompleted();
