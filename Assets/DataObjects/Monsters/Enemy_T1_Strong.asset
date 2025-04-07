@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0889fd4be7829d84da1bc54715f30e0b, type: 3}
-  m_Name: Bat1
+  m_Name: Enemy_T1_Strong
   m_EditorClassIdentifier: 
-  _hp: 3
-  _attack: 2
-  _prefab: {fileID: 7158144764357245696, guid: e47640e8256600c49930d2c973f4df6c, type: 3}
+  _hp: 5
+  _attack: 3
+  _prefab: {fileID: 8581388771616902984, guid: 02c5c4c7bdb8e874b82e871294780171, type: 3}

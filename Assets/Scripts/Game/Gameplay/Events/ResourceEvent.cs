@@ -16,10 +16,13 @@ namespace Game.Gameplay.Events
         {
             await base.HandleEvent(gameController);
 
+
+            List<ResourceChange> resourceChanges = new();
             foreach (var resourceConfig in _config)
             {
                 int resourceAmount = Random.Range(resourceConfig.Amount.x, resourceConfig.Amount.y + 1);
-                gameController.AddResource(resourceConfig.Type, resourceAmount);
+                resourceChanges.Add(new ResourceChange() { Type = resourceConfig.Type, Amount = resourceAmount });
+                await gameController.HandleResourceChange(resourceChanges, _eventDescription);
             }
         }
 
@@ -28,6 +31,12 @@ namespace Game.Gameplay.Events
         {
             public PlayerResources Type;
             public Vector2Int Amount = new (1, 1);
+        }
+
+        public struct ResourceChange
+        {
+            public PlayerResources Type;
+            public int Amount;
         }
     }
 }

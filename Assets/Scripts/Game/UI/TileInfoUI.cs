@@ -45,8 +45,8 @@ namespace Game.UI
 
         private void Setup(FieldTileController tile)
         {
-            _moveCostIcon.enabled = true;
-            _moveCost.text = $"Movement cost: {tile.Cost.ToString()}";
+            _moveCostIcon.enabled = tile.Cost >= 0;
+            _moveCost.text = tile.Cost >= 0 ? $"Movement cost: {tile.Cost.ToString()}" : string.Empty;
             _tileFlavorText.text = tile.FlavorText;
             _eventDescription.text = tile.TileEvent != null ? tile.TileEvent.EventHint : _noEventText;
         }

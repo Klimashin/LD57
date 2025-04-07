@@ -1,4 +1,3 @@
-using Game.Data;
 using Game.Gameplay.Events;
 using JetBrains.Annotations;
 using TMPro;
@@ -26,7 +25,14 @@ namespace Game.Gameplay
         {
             Coords = coords;
 
-            _costText.text = _cost.ToString();
+            if (_cost > 0)
+            {
+                _costText.text = _cost.ToString();
+            }
+            else
+            {
+                _costText.enabled = false;
+            }
         }
 
         public void BindTileEvent(TileEvent tileEvent)

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c47d262ffe2df74ba368b4489c2c104, type: 3}
-  m_Name: BatBattle
+  m_Name: Battle4
   m_EditorClassIdentifier: 
   _eventMarkerPrefab: {fileID: 4996383885512054531, guid: aa0363644d87fd048bed4f12aabe18a9, type: 3}
   _config:

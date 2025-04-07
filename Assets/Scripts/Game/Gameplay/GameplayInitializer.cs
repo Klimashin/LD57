@@ -11,6 +11,7 @@ namespace Game.Gameplay
         [SerializeField] private QuestPanel _questPanel;
         [SerializeField] private LoadingOverlay _loadingOverlay;
         [SerializeField] private Camera _gameCamera;
+        [SerializeField] private ResIncomePanel _resIncomePanel;
 
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
@@ -19,6 +20,7 @@ namespace Game.Gameplay
             containerBuilder.AddSingleton(_questPanel);
             containerBuilder.AddSingleton(_loadingOverlay);
             containerBuilder.AddSingleton(_gameCamera);
+            containerBuilder.AddSingleton(_resIncomePanel);
         }
     }
 }

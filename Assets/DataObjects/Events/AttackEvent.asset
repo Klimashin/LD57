@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: AttackEvent
   m_EditorClassIdentifier: 
   _eventMarkerPrefab: {fileID: 4996383885512054531, guid: 0fa13a882d972b945bf383f4b43f7cd7, type: 3}
+  _eventHint: 
+  _eventDescription: 
   _config:
-  - Type: 0
-    Amount: {x: 1, y: 2}
+  - Type: 2
+    Amount: {x: 1, y: 1}

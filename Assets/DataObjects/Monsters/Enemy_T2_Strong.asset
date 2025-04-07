@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f84a4b085f648949ba86cd0bc789920, type: 3}
-  m_Name: HealthEvent
+  m_Script: {fileID: 11500000, guid: 0889fd4be7829d84da1bc54715f30e0b, type: 3}
+  m_Name: Enemy_T2_Strong
   m_EditorClassIdentifier: 
-  _eventMarkerPrefab: {fileID: 4996383885512054531, guid: 0fa13a882d972b945bf383f4b43f7cd7, type: 3}
-  _eventHint: 
-  _eventDescription: 
-  _config:
-  - Type: 1
-    Amount: {x: 2, y: 2}
+  _hp: 10
+  _attack: 4
+  _prefab: {fileID: 7158144764357245696, guid: e47640e8256600c49930d2c973f4df6c, type: 3}

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c47d262ffe2df74ba368b4489c2c104, type: 3}
+  m_Name: Battle2
+  m_EditorClassIdentifier: 
+  _eventMarkerPrefab: {fileID: 4996383885512054531, guid: aa0363644d87fd048bed4f12aabe18a9, type: 3}
+  _config:
+  - Chance: 2
+    MonsterData: {fileID: 11400000, guid: e3e1a2196120a3642a58958629beb7e7, type: 2}
+  - Chance: 1
+    MonsterData: {fileID: 11400000, guid: 16d95e85e54516747a75685f5a6d11e9, type: 2}

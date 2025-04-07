@@ -4,6 +4,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Game.Data;
+using Game.Gameplay.Events;
 using Game.UI;
 using JetBrains.Annotations;
 using Reflex.Attributes;
@@ -36,10 +37,10 @@ namespace Game.Gameplay
         public FieldTileController CurrentHoveredTile { get; private set; }
 
         private readonly Dictionary<Vector2Int, FieldTileController> _tiles = new ();
-        private GameObject _questMarker;
         private GameObject _characterMarker;
         private BattlePanel _battlePanel;
         private QuestPanel _questPanel;
+        private ResIncomePanel _resIncomePanel;
         private GameObject _moveMarker;
         private LoadingOverlay _loadingOverlay;
         private int _currentStageIndex = -1;
@@ -47,12 +48,13 @@ namespace Game.Gameplay
         private Camera _camera;
 
         [Inject]
-        private void Inject(BattlePanel battlePanel, QuestPanel questPanel, LoadingOverlay loadingOverlay, Camera camera)
+        private void Inject(BattlePanel battlePanel, QuestPanel questPanel, LoadingOverlay loadingOverlay, Camera camera, ResIncomePanel resIncomePanel)
         {
             _battlePanel = battlePanel;
             _questPanel = questPanel;
             _loadingOverlay = loadingOverlay;
             _camera = camera;
+            _resIncomePanel = resIncomePanel;
         }
         
         private void Start()
@@ -303,7 +305,7 @@ namespace Game.Gameplay
                              || (Mathf.Abs(moveCoords.y - CharacterPosition.y) == 1 &&
                                  moveCoords.x == CharacterPosition.x);
 
-            return insideMap && validMove;
+            return insideMap && validMove && _tiles[moveCoords].Cost >= 0;
         }
 
         private void InitializeCharacter()
@@ -353,7 +355,7 @@ namespace Game.Gameplay
         private void GenerateEvents()
         {
             IEnumerable<Vector2Int> filteredTiles =
-                _tiles.Keys.Where(tileCoord => tileCoord != _currentStage.CharacterInitialTile && tileCoord != _currentStage.GoalTile);
+                _tiles.Keys.Where(tileCoord => tileCoord != _currentStage.CharacterInitialTile && tileCoord != _currentStage.GoalTile && _tiles[tileCoord].Cost >= 0);
 
             foreach (var tile in filteredTiles)
             {
@@ -398,9 +400,22 @@ namespace Game.Gameplay
                 for (int j = 0; j < _currentStage.Size.y; j++)
                 {
                     var tileCoord = new Vector2Int(i, j);
-                    var tileConfig = tileCoord.x == _currentStage.GoalTile.x && tileCoord.y == _currentStage.GoalTile.y 
-                        ? _currentStage.GoalTileConfig 
-                        : SelectTile(_currentStage.Tiles, totalChance);
+                    TileConfig tileConfig;
+                    if (tileCoord.x == _currentStage.GoalTile.x && tileCoord.y == _currentStage.GoalTile.y)
+                    {
+                        tileConfig = _currentStage.GoalTileConfig;
+                    }
+                    else
+                    {
+                        TileConfig selection;
+                        do
+                        {
+                            selection = SelectTile(_currentStage.Tiles, totalChance);
+                        } while (!ValidateSelection(selection, tileCoord));
+
+                        tileConfig = selection;
+                    }
+
                     var tile = Instantiate(tileConfig.TilePrefab, _tilesTransform);
                     tile.gameObject.name = $"{tile.gameObject.name}_{tileCoord.x.ToString()}_{tileCoord.y.ToString()}";
                     tile.transform.position = new Vector3(tileCoord.x, tileCoord.y, 0f);
@@ -408,6 +423,17 @@ namespace Game.Gameplay
                     _tiles.Add(tileCoord, tile);
                 }
             }
+        }
+
+        private bool ValidateSelection(TileConfig tileConfig, Vector2Int tileCoords)
+        {
+            if (tileConfig.TilePrefab.Cost < 0)
+            {
+                return tileCoords.x > 0 && tileCoords.y > 0 && tileCoords.x < _currentStage.Size.x - 1 &&
+                       tileCoords.y < _currentStage.Size.y - 1;
+            }
+
+            return true;
         }
 
         private TileConfig SelectTile(List<TileConfig> tilesSet, int totalChance)
@@ -424,6 +450,16 @@ namespace Game.Gameplay
             }
 
             throw new Exception("Failed to select tile based on roll");
+        }
+
+        public async UniTask HandleResourceChange(List<ResourceEvent.ResourceChange> resourceChanges, string description)
+        {
+            await _resIncomePanel.Show(resourceChanges, description);
+
+            foreach (var resourceChange in resourceChanges)
+            {
+                AddResource(resourceChange.Type, resourceChange.Amount);
+            }
         }
 
         public void AddResource(PlayerResources resType, int resCount)
@@ -601,7 +637,7 @@ namespace Game.Gameplay
         public int GetResource(PlayerResources type);
         public Vector2Int FieldSize { get; }
         public Vector2Int CharacterPosition { get; }
-        public void AddResource(PlayerResources resType, int resCount);
+        public UniTask HandleResourceChange(List<ResourceEvent.ResourceChange> resourceChanges, string description);
         public void SetResource(PlayerResources resType, int resCount);
         public UniTask ShuffleTiles();
         public UniTask RotateTiles(Vector2Int center, bool clockwise);
