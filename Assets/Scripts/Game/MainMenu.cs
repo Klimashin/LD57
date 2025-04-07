@@ -25,7 +25,7 @@ namespace Game
 
         private void Start()
         {
-            _startGameButton.onClick.AddListener(OnStartGameButtonClicked);
+            _startGameButton.onClick.AddListener(() => OnStartGameButtonClicked().Forget());
             
             _soundManager.PlayMusicClip("gameplay");
 
@@ -39,8 +39,10 @@ namespace Game
             _menuUI.gameObject.SetActive(true);
         }
 
-        private void OnStartGameButtonClicked()
+        private async UniTask OnStartGameButtonClicked()
         {
+            _startGameButton.interactable = false;
+            await _loadingOverlay.ShowOverlay();
             var scene = SceneManager.LoadScene(1, new LoadSceneParameters(LoadSceneMode.Single));
             ReflexSceneManager.PreInstallScene(scene, builder => {});
         }

@@ -41,5 +41,5 @@ MonoBehaviour:
   - Event: {fileID: 11400000, guid: 8591546a70c90114b8841efe44202159, type: 2}
     SpawnRate: 1
   CameraConfig:
-    Position: {x: 0.5, y: 1}
+    Position: {x: 0.5, y: 0.6}
     Size: 1.5
