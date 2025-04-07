@@ -57,7 +57,7 @@ MonoBehaviour:
     SpawnRate: 1
   - Event: {fileID: 11400000, guid: 43c3e06a32468514fb26d35c80e33473, type: 2}
     SpawnRate: 1
-  - Event: {fileID: 11400000, guid: 721680f4e8c99ef42a97ff33a5421c5f, type: 2}
+  - Event: {fileID: 11400000, guid: 0a72426aa22f1e445b27b5936973c162, type: 2}
     SpawnRate: 1
   CameraConfig:
     Position: {x: 1, y: 1.05}
