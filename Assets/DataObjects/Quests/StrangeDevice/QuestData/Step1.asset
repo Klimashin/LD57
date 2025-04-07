@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d246ae9b42a4244b92b57276bbbaf62, type: 3}
+  m_Name: Step1
+  m_EditorClassIdentifier: 
+  StepDescription: "You see a litle sparkling in pile of rock. As you look closer
+    you notice an small unknown device emitting a purple light. \r\nThere is a familliar
+    port on the side of the device that you can connect to.\r\n"
+  Choices:
+  - ChoiceText: connect to device, it might help
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: ff92e884a5d84ec4ebe5d00912b0ebf0, type: 2}
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: 7d675251610db604d820c7b79cbfb029, type: 2}
+    ChoiceEvent: {fileID: 0}
+  - ChoiceText: dont touch device, its probably broken anyway
+    NextSteps:
+    - Chance: 1
+      NextStep: {fileID: 11400000, guid: 1c990f7f4f5a9324b96e448f39075441, type: 2}
+    ChoiceEvent: {fileID: 0}
